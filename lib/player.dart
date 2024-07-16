@@ -7,6 +7,7 @@ import 'package:game_project/my_game.dart';
 
 class Player extends PositionComponent with HasGameRef<MyGame>{
   Player({
+    required super.position,
     this.playerRadius = 15,
   });
   final Vector2 _velocity = Vector2(0, 0.0);
@@ -17,7 +18,6 @@ class Player extends PositionComponent with HasGameRef<MyGame>{
 
   @override
   FutureOr<void> onLoad() {
-    position = Vector2.zero();
     size = Vector2.all(playerRadius * 2);
     anchor = Anchor.center;
     return super.onLoad();

@@ -4,6 +4,7 @@ import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:game_project/circle_rotator.dart';
 import 'package:game_project/ground.dart';
 import 'package:game_project/player.dart';
 import 'package:flame/game.dart';
@@ -11,7 +12,14 @@ import 'package:flame/game.dart';
 class MyGame extends FlameGame with TapCallbacks {
   late Player myPlayer;
 
-  MyGame()
+  final List<Color> gameColors;
+
+  MyGame({this.gameColors = const [
+    Colors.redAccent,
+    Colors.greenAccent,
+    Colors.blueAccent,
+    Colors.yellowAccent,
+  ]})
       : super(
             camera: CameraComponent.withFixedResolution(
           width: 600,
@@ -24,7 +32,10 @@ class MyGame extends FlameGame with TapCallbacks {
   @override
   void onMount() {
     world.add(Ground(position: Vector2(0,400)));
-    world.add(myPlayer = Player());
+    world.add(myPlayer = Player(position: Vector2(0, 250)));
+
+    generateGameComponents();
+    // debugMode = true;
     super.onMount();
   }
 
@@ -42,5 +53,12 @@ class MyGame extends FlameGame with TapCallbacks {
       camera.viewfinder.position = myPlayer.position ;
     }
     super.update(dt);
+  }
+  
+  void generateGameComponents() {
+    world.add(CircleRotator(
+      position: Vector2(0,-100),
+      size: Vector2(200, 200),
+    ));
   }
 }
