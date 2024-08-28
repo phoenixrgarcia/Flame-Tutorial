@@ -11,11 +11,14 @@ import 'package:game_project/color_switcher.dart';
 import 'package:game_project/ground.dart';
 import 'package:game_project/player.dart';
 import 'package:flame/game.dart';
+import 'package:game_project/star_component.dart';
 
 class MyGame extends FlameGame with TapCallbacks, HasCollisionDetection, HasDecorator, HasTimeScale {
   late Player myPlayer;
 
   final List<Color> gameColors;
+
+  final ValueNotifier<int> currentScore = ValueNotifier(0);
 
   MyGame({this.gameColors = const [
     Colors.redAccent,
@@ -62,6 +65,7 @@ class MyGame extends FlameGame with TapCallbacks, HasCollisionDetection, HasDeco
   }
   
   void _initializeGame() {
+    currentScore.value = 0;
     world.add(Ground(position: Vector2(0,400)));
     world.add(myPlayer = Player(position: Vector2(0, 250)));
     camera.moveTo(Vector2(0,0));
@@ -70,10 +74,25 @@ class MyGame extends FlameGame with TapCallbacks, HasCollisionDetection, HasDeco
 
   void _generateGameComponents() {
     world.add(ColorSwitcher(position: Vector2(0, 180)));
-    world.add(ColorSwitcher(position: Vector2(0, 20)));
     world.add(CircleRotator(
       position: Vector2(0,0),
       size: Vector2(200, 200),
+    ));
+    world.add(StarComponent(
+      position: Vector2(0,0),
+    ));
+
+    world.add(ColorSwitcher(position: Vector2(0, -200)));
+    world.add(CircleRotator(
+      position: Vector2(0, -400),
+      size: Vector2(150, 150),
+    ));
+    world.add(CircleRotator(
+      position: Vector2(0, -400),
+      size: Vector2(180, 180),
+    ));
+    world.add(StarComponent(
+      position: Vector2(0, -400),
     ));
   }
 
@@ -98,6 +117,10 @@ class MyGame extends FlameGame with TapCallbacks, HasCollisionDetection, HasDeco
     (decorator as PaintDecorator).addBlur(0);
     timeScale = 1.0;
     //resumeEngine();
+  }
+
+  void increaseScore(){
+      currentScore.value++;
   }
   
 }

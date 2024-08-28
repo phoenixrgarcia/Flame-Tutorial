@@ -9,6 +9,7 @@ import 'package:game_project/circle_rotator.dart';
 import 'package:game_project/color_switcher.dart';
 import 'package:game_project/ground.dart';
 import 'package:game_project/my_game.dart';
+import 'package:game_project/star_component.dart';
 
 class Player extends PositionComponent with HasGameRef<MyGame>, CollisionCallbacks{
   Player({
@@ -81,6 +82,10 @@ class Player extends PositionComponent with HasGameRef<MyGame>, CollisionCallbac
       if(_color != other.color){
         gameRef.gameOver();
       }
+    }
+    else if(other is StarComponent){
+      other.removeFromParent();
+      gameRef.increaseScore();
     }
   }
   
