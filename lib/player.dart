@@ -15,7 +15,9 @@ class Player extends PositionComponent with HasGameRef<MyGame>, CollisionCallbac
   Player({
     required super.position,
     this.playerRadius = 12,
-  });
+  }): super(
+    priority: 20,
+  );
   final Vector2 _velocity = Vector2(0, 0.0);
   final _gravity = 980.0;
   final _jumpSpeed = 350.0;
@@ -84,7 +86,7 @@ class Player extends PositionComponent with HasGameRef<MyGame>, CollisionCallbac
       }
     }
     else if(other is StarComponent){
-      other.removeFromParent();
+      other.showCollectEffect();
       gameRef.increaseScore();
     }
   }
